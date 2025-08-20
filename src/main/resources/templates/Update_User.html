@@ -9,7 +9,7 @@
 	<a href="/services"> Back to Services</a>
 	<div class="updateUser">
 		<h3 style="color: red;"> UPDATE EXISTING USER/CUSTOMER </h3>
-		<form  action=""  th:action="@{'/updatingUser/'+${user.userId}}"    th:object="${user}">
+		<form  action=""  th:action="@{'/updatingUser/'+${user.userId}}"    th:object="${user}" method="post">
 			User_Id :
 			<input  type="hidden" name="userId" th:value="${user.userId}" th:text="${user.userId}"/><br />
 			User_Name :

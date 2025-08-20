@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: beautyapp
+    restart: always
+    depends_on:
+      - redis
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/beautyproject
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PASSWORD: pranjalpassword
+      SPRING_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+
+  db:
+    image: mysql:8.0
+    container_name: beautyapp-mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: beautyproject
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - beautyapp-db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 40s
+
+  redis:
+    image: redis:latest
+    container_name: beautyapp-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - beautyapp-redisdata:/data
+    #command: ["redis-server", "--appendonly", "yes"]
+    # healthcheck:
+    #   test: ["CMD", "redis-cli", "ping"]
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 5
+    #   start_period: 5s
+
+volumes:
+  beautyapp-db_data:
+  beautyapp-redisdata:

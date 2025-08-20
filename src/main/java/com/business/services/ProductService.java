@@ -1,54 +1,55 @@
 package com.business.services;
 
+import com.business.entities.Product;
+import com.business.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+@Service
+public class ProductService {
 
-import com.business.entities.Product;
-import com.business.repositories.ProductRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
-@Component
-public class ProductService 
-{
-	@Autowired
-	private ProductRepository productRepository;
+    // Save a new product
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
 
-	//add product
-	public void addProduct(Product p)
-	{
-		this.productRepository.save(p);
-	}
+    // Get all products
+    @Cacheable(value = "products")
+    public List<Product> getAllProducts() {
+        return (List<Product>) productRepository.findAll();
+    }
 
-	//getAll product
-	public List<Product>getAllProducts()
-	{
-		List<Product> products = (List<Product>) this.productRepository.findAll();
-		return products;
-	}
+    // Get a single product
+    @Cacheable(value = "product", key = "#id")
+    public Product getProduct(int id) {
+        Optional<Product> optional = productRepository.findById(id);
+        return optional.orElse(null);
+    }
 
-	//get singal product
-	public Product getProduct(int id)
-	{
-		Optional<Product> optional = this.productRepository.findById(id);
-		Product product=optional.get();
-		return product;
-	}
-	//update product
-	public void updateproduct(Product p,int id)
-	{
-		p.setPid(id);
-		Optional<Product> optional = this.productRepository.findById(id);
-		Product prod=optional.get();
-		if(prod.getPid()==id)
-		{
-			this.productRepository.save(p);
-		}
-	}
-	//delete product
-	public void deleteProduct(int id)
-	{
-		this.productRepository.deleteById(id);
-	}
+    // Update product
+    @CachePut(value = "product", key = "#id")
+    public Product updateProduct(Product p, int id) {
+        p.setPid(id);
+        Optional<Product> optional = productRepository.findById(id);
+        if (optional.isPresent()) {
+            return productRepository.save(p);
+        }
+        return null;
+    }
+
+    // Delete product
+    @CacheEvict(value = "product", key = "#id")
+    public void deleteProduct(int id) {
+        productRepository.deleteById(id);
+    }
 }
+
