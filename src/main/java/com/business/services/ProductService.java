@@ -18,6 +18,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     // Save a new product
+    @CacheEvict(value = "products", allEntries = true)
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
@@ -37,6 +38,7 @@ public class ProductService {
 
     // Update product
     @CachePut(value = "product", key = "#id")
+    @CacheEvict(value = "products", allEntries = true)
     public Product updateProduct(Product p, int id) {
         p.setPid(id);
         Optional<Product> optional = productRepository.findById(id);
@@ -47,9 +49,8 @@ public class ProductService {
     }
 
     // Delete product
-    @CacheEvict(value = "product", key = "#id")
+    @CacheEvict(value = {"product", "products"}, allEntries = true)
     public void deleteProduct(int id) {
         productRepository.deleteById(id);
     }
 }
-

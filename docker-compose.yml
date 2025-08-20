@@ -6,8 +6,10 @@ services:
     container_name: beautyapp
     restart: always
     depends_on:
-      - redis
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/beautyproject
       SPRING_DATASOURCE_USERNAME: root
@@ -30,15 +32,15 @@ services:
     volumes:
       - beautyapp-db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    # healthcheck:
-    #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
-    #   start_period: 40s
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
   redis:
-    image: redis:latest
+    image: pranjalnagarro/beautyappproject:beautyappredis
     container_name: beautyapp-redis
     restart: always
     ports:
