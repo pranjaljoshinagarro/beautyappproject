@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   app:
-    build: .
+    image: pranjalnagarro/beautyappprojectmain:beautyappprojectapplication
     container_name: beautyapp
     restart: always
     depends_on:
