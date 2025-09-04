@@ -6,11 +6,11 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 #JDK image to run the JAR
-FROM eclipse-temurin:17-jdk-jammy
+#FROM eclipse-temurin:17-jdk-jammy # earlier image - 478 MB
+FROM eclipse-temurin:17-jre-alpine
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
+USER appuser
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
-

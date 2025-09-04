@@ -1,0 +1,163 @@
+
+Report Summary
+
+┌────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┐
+│                       Target                       │  Type  │ Vulnerabilities │ Secrets │
+├────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┤
+│ beauty-app-project-new-optimize:v1 (alpine 3.22.1) │ alpine │        0        │    -    │
+├────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┤
+│ app/app.jar                                        │  jar   │       39        │    -    │
+└────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+Java (jar)
+==========
+Total: 39 (UNKNOWN: 0, LOW: 4, MEDIUM: 16, HIGH: 18, CRITICAL: 1)
+
+┌──────────────────────────────────────────────────────────┬────────────────┬──────────┬────────┬───────────────────┬─────────────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│                         Library                          │ Vulnerability  │ Severity │ Status │ Installed Version │            Fixed Version            │                            Title                             │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┼────────┼───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ ch.qos.logback:logback-classic (app.jar)                 │ CVE-2023-6378  │ HIGH     │ fixed  │ 1.4.11            │ 1.3.12, 1.4.12, 1.2.13              │ logback: serialization vulnerability in logback receiver     │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-6378                    │
+├──────────────────────────────────────────────────────────┤                │          │        │                   │                                     │                                                              │
+│ ch.qos.logback:logback-core (app.jar)                    │                │          │        │                   │                                     │                                                              │
+│                                                          │                │          │        │                   │                                     │                                                              │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-12798 │ MEDIUM   │        │                   │ 1.5.13, 1.3.15                      │ logback-core: arbitrary code execution via                   │
+│                                                          │                │          │        │                   │                                     │ JaninoEventEvaluator                                         │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-12798                   │
+│                                                          ├────────────────┼──────────┤        │                   │                                     ├──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-12801 │ LOW      │        │                   │                                     │ logback-core: SaxEventRecorder vulnerable to Server-Side     │
+│                                                          │                │          │        │                   │                                     │ Request Forgery (SSRF) attacks                               │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-12801                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ com.mysql:mysql-connector-j (app.jar)                    │ CVE-2023-22102 │ HIGH     │        │ 8.0.33            │ 8.2.0                               │ mysql-connector-java: Connector/J unspecified vulnerability  │
+│                                                          │                │          │        │                   │                                     │ (CPU October 2023)                                           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-22102                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ io.netty:netty-common (app.jar)                          │ CVE-2024-47535 │ MEDIUM   │        │ 4.1.97.Final      │ 4.1.115.Final                       │ netty: Denial of Service attack on windows app using Netty   │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-47535                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-25193 │          │        │                   │ 4.1.118.Final                       │ netty: Denial of Service attack on windows app using Netty   │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-25193                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        │                   │                                     ├──────────────────────────────────────────────────────────────┤
+│ io.netty:netty-handler (app.jar)                         │ CVE-2025-24970 │ HIGH     │        │                   │                                     │ io.netty:netty-handler: SslHandler doesn't correctly         │
+│                                                          │                │          │        │                   │                                     │ validate packets which can lead to native crash...           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-24970                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.apache.tomcat.embed:tomcat-embed-core (app.jar)      │ CVE-2025-24813 │ CRITICAL │        │ 10.1.12           │ 11.0.3, 10.1.35, 9.0.99             │ tomcat: Potential RCE and/or information disclosure and/or   │
+│                                                          │                │          │        │                   │                                     │ information corruption with partial PUT...                   │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-24813                   │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2023-46589 │ HIGH     │        │                   │ 11.0.0-M11, 10.1.16, 9.0.83, 8.5.96 │ tomcat: HTTP request smuggling via malformed trailer headers │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-46589                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-34750 │          │        │                   │ 11.0.0-M21, 10.1.25, 9.0.90         │ tomcat: Improper Handling of Exceptional Conditions          │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-34750                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-50379 │          │        │                   │ 11.0.2, 10.1.34, 9.0.98             │ tomcat: RCE due to TOCTOU issue in JSP compilation           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-50379                   │
+│                                                          ├────────────────┤          │        │                   │                                     ├──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-56337 │          │        │                   │                                     │ tomcat: Incomplete fix for CVE-2024-50379 - RCE due to       │
+│                                                          │                │          │        │                   │                                     │ TOCTOU issue in...                                           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-56337                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-48988 │          │        │                   │ 11.0.8, 10.1.42, 9.0.106            │ tomcat: Apache Tomcat DoS in multipart upload                │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-48988                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-48989 │          │        │                   │ 11.0.10, 10.1.44, 9.0.108           │ tomcat: http/2 "MadeYouReset" DoS attack through HTTP/2      │
+│                                                          │                │          │        │                   │                                     │ control frames                                               │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-48989                   │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2023-41080 │ MEDIUM   │        │                   │ 8.5.93, 9.0.80, 10.1.13, 11.0.0-M11 │ tomcat: Open Redirect vulnerability in FORM authentication   │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-41080                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2023-42795 │          │        │                   │ 11.0.0-M12, 10.1.14, 9.0.81, 8.5.94 │ tomcat: improper cleaning of recycled objects could lead to  │
+│                                                          │                │          │        │                   │                                     │ information leak                                             │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-42795                   │
+│                                                          ├────────────────┤          │        │                   │                                     ├──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2023-44487 │          │        │                   │                                     │ HTTP/2: Multiple HTTP/2 enabled web servers are vulnerable   │
+│                                                          │                │          │        │                   │                                     │ to a DDoS attack...                                          │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-44487                   │
+│                                                          ├────────────────┤          │        │                   │                                     ├──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2023-45648 │          │        │                   │                                     │ tomcat: incorrectly parsed http trailer headers can cause    │
+│                                                          │                │          │        │                   │                                     │ request smuggling                                            │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-45648                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-24549 │          │        │                   │ 8.5.99, 9.0.86, 10.1.19, 11.0.0-M17 │ Tomcat: HTTP/2 header handling DoS                           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-24549                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-31650 │          │        │                   │ 9.0.104, 10.1.40, 11.0.6            │ tomcat: Apache Tomcat: DoS via malformed HTTP/2              │
+│                                                          │                │          │        │                   │                                     │ PRIORITY_UPDATE frame                                        │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-31650                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-49125 │          │        │                   │ 11.0.8, 10.1.42, 9.0.106            │ tomcat: Apache Tomcat: Security constraint bypass for        │
+│                                                          │                │          │        │                   │                                     │ pre/post-resources                                           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-49125                   │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-31651 │ LOW      │        │                   │ 9.0.104, 10.1.40, 11.0.6            │ tomcat: Apache Tomcat: Bypass of rules in Rewrite Valve      │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-31651                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-46701 │          │        │                   │ 9.0.105, 10.1.41, 11.0.7            │ tomcat: Apache Tomcat: Security constraint bypass for CGI    │
+│                                                          │                │          │        │                   │                                     │ scripts                                                      │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-46701                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.apache.tomcat.embed:tomcat-embed-websocket (app.jar) │ CVE-2024-23672 │ MEDIUM   │        │                   │ 11.0.0-M17, 10.1.19, 9.0.86, 8.5.99 │ Tomcat: WebSocket DoS with incomplete closing handshake      │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-23672                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.springframework.boot:spring-boot (app.jar)           │ CVE-2025-22235 │ HIGH     │        │ 3.1.3             │ 3.3.11, 3.4.5                       │ org.springframework.boot/spring-boot: Spring Boot            │
+│                                                          │                │          │        │                   │                                     │ EndpointRequest.to() creates wrong matcher if actuator       │
+│                                                          │                │          │        │                   │                                     │ endpoint is not...                                           │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-22235                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.springframework:spring-context (app.jar)             │ CVE-2024-38820 │ MEDIUM   │        │ 6.0.11            │ 6.1.14                              │ The fix for CVE-2022-22968 made disallowedFieldspatterns in  │
+│                                                          │                │          │        │                   │                                     │ DataBinder ...                                               │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-38820                   │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-22233 │ LOW      │        │                   │ 6.2.7, 6.1.20                       │ CVE-2024-38820 ensured Locale-independent, lowercase         │
+│                                                          │                │          │        │                   │                                     │ conversion for bo ...                                        │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-22233                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.springframework:spring-web (app.jar)                 │ CVE-2024-22243 │ HIGH     │        │                   │ 6.1.4, 6.0.17, 5.3.32               │ springframework: URL Parsing with Host Validation            │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-22243                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-22259 │          │        │                   │ 6.1.5, 6.0.18, 5.3.33               │ springframework: URL Parsing with Host Validation            │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-22259                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-22262 │          │        │                   │ 5.3.34, 6.0.19, 6.1.6               │ springframework: URL Parsing with Host Validation            │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-22262                   │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-38809 │ MEDIUM   │        │                   │ 5.3.38, 6.0.23, 6.1.12              │ org.springframework:spring-web: Spring Framework DoS via     │
+│                                                          │                │          │        │                   │                                     │ conditional HTTP request                                     │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-38809                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-38820 │          │        │                   │ 6.1.14                              │ The fix for CVE-2022-22968 made disallowedFieldspatterns in  │
+│                                                          │                │          │        │                   │                                     │ DataBinder ...                                               │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-38820                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-41234 │          │        │                   │ 6.2.8, 6.1.21                       │ springframework: Reflected download attack in Spring         │
+│                                                          │                │          │        │                   │                                     │ Framework with non-ASCII headers                             │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-41234                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.springframework:spring-webmvc (app.jar)              │ CVE-2023-34053 │ HIGH     │        │                   │ 6.0.14                              │ springframework: io.micrometer: micrometer-core classpath    │
+│                                                          │                │          │        │                   │                                     │ vulnerable to denial of service                              │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2023-34053                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-38816 │          │        │                   │ 6.1.13                              │ spring-webmvc: Path Traversal Vulnerability in Spring        │
+│                                                          │                │          │        │                   │                                     │ Applications Using RouterFunctions and FileSystemResource    │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-38816                   │
+│                                                          ├────────────────┤          │        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2024-38819 │          │        │                   │ 6.1.14                              │ org.springframework:spring-webmvc: Path traversal            │
+│                                                          │                │          │        │                   │                                     │ vulnerability in functional web frameworks                   │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2024-38819                   │
+│                                                          ├────────────────┼──────────┤        │                   ├─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                          │ CVE-2025-41242 │ MEDIUM   │        │                   │ 6.2.10                              │ org.springframework/spring-webmvc: Spring Framework MVC path │
+│                                                          │                │          │        │                   │                                     │ traversal vulnerability                                      │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2025-41242                   │
+├──────────────────────────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.yaml:snakeyaml (app.jar)                             │ CVE-2022-1471  │ HIGH     │        │ 1.33              │ 2.0                                 │ SnakeYaml: Constructor Deserialization Remote Code Execution │
+│                                                          │                │          │        │                   │                                     │ https://avd.aquasec.com/nvd/cve-2022-1471                    │
+└──────────────────────────────────────────────────────────┴────────────────┴──────────┴────────┴───────────────────┴─────────────────────────────────────┴──────────────────────────────────────────────────────────────┘

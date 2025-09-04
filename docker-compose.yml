@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   app:
-    image: pranjalnagarro/beautyappprojectmain:beautyappprojectapplication
+    image: beauty-app-project-new-optimize:v2
     container_name: beautyapp
     restart: always
     depends_on:
@@ -13,12 +11,17 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/beautyproject
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_PASSWORD_FILE: /run/secrets/mysql_root_password
       SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PASSWORD: pranjalpassword
       SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD_FILE: /run/secrets/redis_password
     ports:
       - "8080:8080"
+    networks:
+      - beautyapp-network
+    secrets:
+      - mysql_root_password
+      - redis_password
 
   db:
     image: mysql:8.0
@@ -26,7 +29,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: beautyproject
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
     ports:
       - "3306:3306"
     volumes:
@@ -38,6 +41,10 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
+    networks:
+      - beautyapp-network
+    secrets:
+      - mysql_root_password
 
   redis:
     image: pranjalnagarro/beautyappproject:beautyappredis
@@ -47,14 +54,47 @@ services:
       - "6379:6379"
     volumes:
       - beautyapp-redisdata:/data
-    #command: ["redis-server", "--appendonly", "yes"]
-    # healthcheck:
-    #   test: ["CMD", "redis-cli", "ping"]
-    #   interval: 5s
-    #   timeout: 3s
-    #   retries: 5
-    #   start_period: 5s
+    command: >
+      sh -c "redis-server --requirepass $(cat /run/secrets/redis_password) --appendonly yes"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $(cat /run/secrets/redis_password) ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - beautyapp-network
+    secrets:
+      - redis_password
+
+  bench:
+    image: docker/docker-bench-security:latest
+    container_name: docker-bench
+    privileged: true
+    pid: host
+    network_mode: host
+    volumes:
+      - /var/lib:/var/lib:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /usr/lib/systemd:/usr/lib/systemd:ro
+      - /etc:/etc:ro
+      - /etc/os-release:/etc/os-release:ro
+      - ./bench-reports:/output
+    entrypoint: >
+      sh -c "./docker-bench-security.sh | tee /output/bench-report-$(date +%F_%H-%M-%S).log"
+
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  redis_password:
+    file: ./secrets/redis_password.txt
 
 volumes:
   beautyapp-db_data:
   beautyapp-redisdata:
+
+networks:
+  beautyapp-network:
+    driver: bridge
+
