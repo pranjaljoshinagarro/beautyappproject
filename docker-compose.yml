@@ -22,6 +22,12 @@ services:
     secrets:
       - mysql_root_password
       - redis_password
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add: []
+
 
   db:
     image: mysql:8.0
