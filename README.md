@@ -22,9 +22,9 @@
 - Thymeleaf: Server-side Java template engine for dynamic HTML generation.
 - MySQL: Relational database management system for data storage.
 - IDE/Tool : Spring Tool Suite 4 (Eclipse)
-- Redis : Cache Tool
+- Redis : Cache DB Tool
 - Docker: Contanerize the application with MySql DB and Redis
-
+- Docker Bench : Security Audit tool for Docker 
 
 ## Installation :
 
@@ -34,15 +34,13 @@
 
 2. Go inside the beautyappproject directory.
 
-3. Build your Redis Image using Dockerfilee https://github.com/pranjaljoshinagarro/beautyappproject/blob/main/Dockerfilee
+3. Then Locate your docker-compose.yml file and run docker compose up --build -d to start your application docker containers with MySQL DB and redis. 
 
-4. Then Locate your docker-compose.yml file and run docker compose up --build -d to start your application docker containers with MySQL DB and redis. 
+4. Wait for 30 seconds so admin related schemas/tables/data will be created in db and application will get started. 
 
-5. Wait for 30 seconds so admin related schemas/tables/data will be created in db and application will get started. 
+5. Open http://localhost:8080/home in any browser. <br>
 
-6. Open http://localhost:8080/home in any browser. <br>
-
-7. Now you can login to Admin Page as well using default admin credentials created in the database. <br>
+6. Now you can login to Admin Page as well using default admin credentials created in the database. <br>
    - Admin Email: admin@example.com <br>
    - Admin Password: admin123 <br>     
 
